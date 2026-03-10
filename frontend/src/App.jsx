@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Layout, Input, Button, Card, Progress, Tabs, Image, List, Typography, Space, message, Drawer, Form, TextArea } from 'antd';
+import { Layout, Input, Button, Card, Progress, Tabs, Image, List, Typography, Space, message, Drawer, Form } from 'antd';
 import { PlayCircleOutlined, EditOutlined, FileTextOutlined, UserOutlined, EnvironmentOutlined, VideoCameraOutlined, ApiOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import './App.css';
 
 const { Header, Content, Sider } = Layout;
 const { Title, Paragraph } = Typography;
-const { TextArea: AntdTextArea } = Input;
+const { TextArea } = Input;
 
 const API_BASE = 'http://localhost:34567/api';
 
@@ -196,7 +196,7 @@ function App() {
       <Layout>
         <Sider width={400} style={{ background: '#fff', padding: 24 }}>
           <Card title="📝 输入小说内容" bordered={false}>
-            <AntdTextArea
+            <TextArea
               rows={18}
               placeholder="请粘贴你想要转换为漫剧的小说内容..."
               value={novelText}
