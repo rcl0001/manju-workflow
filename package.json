@@ -1,0 +1,17 @@
+{
+  "name": "manju-workflow",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "小说转漫剧全链路自动化工作流",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js 2>&1 | tee run.log",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "keywords": ["漫剧", "AI生成", "多智能体", "工作流"],
+  "author": "",
+  "license": "MIT"
+}
