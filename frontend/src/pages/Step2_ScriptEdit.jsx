@@ -114,7 +114,7 @@ function Step2_ScriptEdit() {
         <UserOutlined /> 步骤2：调整剧本，生成角色三视图
       </Title>
 
-      <Card>
+      <Card className="glass-card" className="glass-card">
         {generating ? (
           <div style={{ textAlign: 'center', padding: '60px 0' }}>
             <Spin size="large" />

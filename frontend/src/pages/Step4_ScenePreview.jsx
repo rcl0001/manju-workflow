@@ -67,13 +67,13 @@ function Step4_ScenePreview() {
         <VideoCameraOutlined /> 步骤4：预览场景，生成视频提示词
       </Title>
 
-      <Card title="🏞️ 生成的场景参考图" style={{ marginBottom: 24 }}>
+      <Card className="glass-card" title="🏞️ 生成的场景参考图" style={{ marginBottom: 24 }}>
         <List
           grid={{ gutter: 16, column: 3 }}
           dataSource={sceneImages}
           renderItem={(item) => (
             <List.Item>
-              <Card hoverable>
+              <Card className="glass-card" hoverable>
                 <Image src={item} />
               </Card>
             </List.Item>
@@ -81,7 +81,7 @@ function Step4_ScenePreview() {
         />
       </Card>
 
-      <Card title="✍️ 调整剧本内容">
+      <Card className="glass-card" title="✍️ 调整剧本内容">
         <Paragraph style={{ marginBottom: 16 }}>
           你可以在这里调整剧本内容，系统会根据剧本、角色和场景信息生成每个镜头的视频生成提示词。
         </Paragraph>

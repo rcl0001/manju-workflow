@@ -77,7 +77,7 @@ function Step5_PromptEdit() {
           style={{ marginBottom: 24 }}
           renderItem={(item, index) => (
             <List.Item key={index}>
-              <Card title={`镜头 ${index + 1}：${item.duration}s`}>
+              <Card className="glass-card" title={`镜头 ${index + 1}：${item.duration}s`}>
                 <TextArea
                   rows={4}
                   value={item.prompt}

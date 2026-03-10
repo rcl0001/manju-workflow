@@ -29,7 +29,7 @@ function Step1_NovelInput() {
         <FileTextOutlined /> 步骤1：输入小说内容，生成结构化剧本
       </Title>
 
-      <Card>
+      <Card className="glass-card" className="glass-card">
         <Paragraph style={{ marginBottom: 16 }}>
           请粘贴你想要转换为漫剧的小说内容，系统会自动分析并生成结构化剧本，包含角色信息、环境信息和分镜剧本。
         </Paragraph>

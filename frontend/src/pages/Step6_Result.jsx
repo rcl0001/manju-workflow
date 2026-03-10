@@ -48,7 +48,7 @@ function Step6_Result() {
           dataSource={charImages}
           renderItem={(item) => (
             <List.Item>
-              <Card hoverable>
+              <Card className="glass-card" hoverable>
                 <Image src={item} />
               </Card>
             </List.Item>
@@ -65,7 +65,7 @@ function Step6_Result() {
           dataSource={sceneImages}
           renderItem={(item) => (
             <List.Item>
-              <Card hoverable>
+              <Card className="glass-card" hoverable>
                 <Image src={item} />
               </Card>
             </List.Item>
