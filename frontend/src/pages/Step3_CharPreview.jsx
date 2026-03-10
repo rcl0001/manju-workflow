@@ -98,7 +98,7 @@ function Step3_CharPreview() {
       </Title>
 
       {generating ? (
-        <Card className="glass-card" className="glass-card">
+        <Card className="glass-card">
           <div style={{ textAlign: 'center', padding: '80px 0' }}>
             <Spin size="large" />
             <Title level={4} style={{ marginTop: 24 }}>正在生成角色三视图，请稍候...</Title>
@@ -114,7 +114,7 @@ function Step3_CharPreview() {
             showIcon
             style={{ marginBottom: 24 }}
           />
-          <Card className="glass-card" className="glass-card" title="🎨 生成的角色三视图" style={{ marginBottom: 24 }}>
+          <Card className="glass-card" title="🎨 生成的角色三视图" style={{ marginBottom: 24 }}>
             <List
               grid={{ gutter: 16, column: 3 }}
               dataSource={charImages}
@@ -128,7 +128,7 @@ function Step3_CharPreview() {
             />
           </Card>
 
-          <Card className="glass-card" className="glass-card" title="🏞️ 调整环境信息">
+          <Card className="glass-card" title="🏞️ 调整环境信息">
             <Paragraph style={{ marginBottom: 16 }}>
               你可以在这里调整环境信息，确认无误后生成对应的场景参考图。
             </Paragraph>
