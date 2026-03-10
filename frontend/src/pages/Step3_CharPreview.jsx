@@ -68,7 +68,7 @@ function Step3_CharPreview() {
           script: JSON.parse(savedScript),
           novelText: savedNovelText
         };
-        window.location.reload();
+        
       }
     } else {
       // 保存数据到localStorage

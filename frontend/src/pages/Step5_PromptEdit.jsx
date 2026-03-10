@@ -34,7 +34,7 @@ function Step5_PromptEdit() {
           charRefs: savedCharRefs,
           sceneRefs: savedSceneRefs
         };
-        window.location.reload();
+        
         return;
       }
       // 没有数据跳回上一步

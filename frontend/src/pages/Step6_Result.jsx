@@ -40,7 +40,7 @@ function Step6_Result() {
           sceneRefs: savedSceneRefs,
           videoPrompts: savedVideoPrompts
         };
-        window.location.reload();
+        
         return;
       }
       // 没有数据跳回上一步

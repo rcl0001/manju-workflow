@@ -21,32 +21,35 @@ function Step4_ScenePreview() {
 
   // 从localStorage恢复数据
   useEffect(() => {
-    if (!script || !charRefs) {
+    let currentScript = script;
+    let currentNovelText = novelText;
+    let currentCharRefs = charRefs;
+
+    if (!currentScript || !currentCharRefs) {
       const savedScript = getData('manju_script');
       const savedNovelText = getData('manju_novelText', false);
       const savedCharRefs = getData('manju_charRefs');
       
       if (savedScript && savedNovelText && savedCharRefs) {
-        // 恢复保存的数据
-        location.state = {
-          script: savedScript,
-          novelText: savedNovelText,
-          charRefs: savedCharRefs
-        };
+        // 直接恢复到state，不刷新页面
+        currentScript = savedScript;
+        currentNovelText = savedNovelText;
+        currentCharRefs = savedCharRefs;
         setScriptContent(savedScript.scriptContent);
-        window.location.reload();
+        message.info('已恢复之前的生成进度');
+      } else {
+        // 没有数据跳回上一步
+        message.error('请先完成角色生成步骤');
+        navigate('/step3');
         return;
       }
-      // 没有数据跳回上一步
-      message.error('请先完成角色生成步骤');
-      navigate('/step3');
-      return;
+    } else {
+      // 保存数据到localStorage
+      saveData('manju_script', currentScript);
+      saveData('manju_novelText', currentNovelText, false);
+      saveData('manju_charRefs', currentCharRefs);
+      setScriptContent(currentScript.scriptContent);
     }
-    
-    // 保存数据到localStorage
-    saveData('manju_script', script);
-    saveData('manju_novelText', novelText, false);
-    saveData('manju_charRefs', charRefs);
 
     // 自动生成场景图
     const generateScenes = async () => {

@@ -39,7 +39,7 @@ function Step2_ScriptEdit() {
           message.info('已恢复之前未完成的生成进度');
           return;
         }
-        window.location.reload();
+        
         return;
       }
     } else {
