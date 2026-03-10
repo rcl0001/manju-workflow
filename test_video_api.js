@@ -5,7 +5,10 @@ import axios from 'axios';
 import fs from 'fs/promises';
 
 // 配置
-const API_KEY = "5ced3d53-2536-400f-ae64-171b991af49d";
+import dotenv from 'dotenv';
+dotenv.config();
+
+const API_KEY = process.env.VOLC_API_KEY;
 const API_URL = "https://ark.cn-beijing.volces.com/api/v3/contents/generations/tasks";
 const TEST_CHAR_IMAGE = "./assets/chars/林小满_三视图.png"; // 用已有的角色图
 const TEST_SCENE_IMAGE = "./assets/scenes/社区废品回收站_参考图.png"; // 用已有的场景图

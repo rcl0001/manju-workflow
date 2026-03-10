@@ -9,9 +9,16 @@
     "test": "node test.js"
   },
   "dependencies": {
-    "axios": "^1.6.0"
+    "axios": "^1.6.0",
+    "dotenv": "^17.3.1",
+    "python-dotenv": "^0.0.1-security"
   },
-  "keywords": ["漫剧", "AI生成", "多智能体", "工作流"],
+  "keywords": [
+    "漫剧",
+    "AI生成",
+    "多智能体",
+    "工作流"
+  ],
   "author": "",
   "license": "MIT"
 }

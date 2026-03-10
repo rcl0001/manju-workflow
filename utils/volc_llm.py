@@ -7,12 +7,17 @@
 """
 import sys
 import json
+import os
+from dotenv import load_dotenv
 from volcenginesdkarkruntime import Ark
+
+# 加载环境变量
+load_dotenv()
 
 # 初始化Ark客户端，使用提供的API密钥
 client = Ark(
     base_url='https://ark.cn-beijing.volces.com/api/v3',
-    api_key='5ced3d53-2536-400f-ae64-171b991af49d',
+    api_key=os.getenv('VOLC_API_KEY'),
 )
 
 def call_doubao(prompt):

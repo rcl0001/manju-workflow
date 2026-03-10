@@ -2,6 +2,10 @@
  * 视频生成Agent：输入提示词+参考图，生成最终漫剧视频
  */
 import { saveVideoToFile, imageToBase64 } from '../utils/fileUtils.js';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const API_KEY = process.env.VOLC_API_KEY;
 
 export const 视频生成Agent = async (videoPrompts) => {
   const videoClips = [];
@@ -85,7 +89,7 @@ const callVideoGenModel = async (prompt, duration, charRefUrl, sceneRefUrl) => {
     {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer 5ced3d53-2536-400f-ae64-171b991af49d"
+        "Authorization": `Bearer ${API_KEY}`
       },
       timeout: 30000
     }
@@ -105,7 +109,7 @@ const callVideoGenModel = async (prompt, duration, charRefUrl, sceneRefUrl) => {
     const queryResponse = await axios.get(
       `https://ark.cn-beijing.volces.com/api/v3/contents/generations/tasks/${taskId}`,
       {
-        headers: { "Authorization": "Bearer 5ced3d53-2536-400f-ae64-171b991af49d" },
+        headers: { "Authorization": `Bearer ${API_KEY}` },
         timeout: 10000
       }
     );
