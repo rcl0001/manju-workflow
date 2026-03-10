@@ -19,11 +19,32 @@ function Step2_ScriptEdit() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(true);
 
-  // 进入页面自动生成剧本
+  // 从localStorage恢复数据
   useEffect(() => {
     if (!novelText) {
-      navigate('/');
-      return;
+      const savedNovelText = localStorage.getItem('manju_novelText');
+      const savedScript = localStorage.getItem('manju_script');
+      if (savedNovelText) {
+        // 恢复保存的数据
+        location.state = {
+          novelText: savedNovelText
+        };
+        if (savedScript) {
+          const script = JSON.parse(savedScript);
+          setRoleInfo(script.roleInfo);
+          setEnvInfo(script.envInfo);
+          setScriptContent(script.scriptContent);
+          setGenerating(false);
+          setLoading(false);
+          message.info('已恢复之前未完成的生成进度');
+          return;
+        }
+        window.location.reload();
+        return;
+      }
+    } else {
+      // 保存小说内容到localStorage
+      localStorage.setItem('manju_novelText', novelText);
     }
 
     const generateScript = async () => {
@@ -33,6 +54,8 @@ function Step2_ScriptEdit() {
         setRoleInfo(script.roleInfo);
         setEnvInfo(script.envInfo);
         setScriptContent(script.scriptContent);
+        // 保存剧本到localStorage
+        localStorage.setItem('manju_script', JSON.stringify(script));
         message.success('剧本生成成功！你可以调整内容后继续下一步');
       } catch (err) {
         message.error('生成失败：' + err.response?.data?.error || err.message);
@@ -42,8 +65,10 @@ function Step2_ScriptEdit() {
       }
     };
 
-    generateScript();
-  }, [novelText, navigate]);
+    if (!roleInfo && !envInfo && !scriptContent) {
+      generateScript();
+    }
+  }, [novelText, navigate, location.state, roleInfo, envInfo, scriptContent]);
 
   const handleGenerateChars = async () => {
     if (!roleInfo.trim()) {

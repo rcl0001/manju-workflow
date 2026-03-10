@@ -57,6 +57,26 @@ function Step3_CharPreview() {
     });
   };
 
+  // 从localStorage恢复数据
+  useEffect(() => {
+    if (!script) {
+      const savedScript = localStorage.getItem('manju_script');
+      const savedNovelText = localStorage.getItem('manju_novelText');
+      if (savedScript && savedNovelText) {
+        // 恢复保存的数据
+        location.state = {
+          script: JSON.parse(savedScript),
+          novelText: savedNovelText
+        };
+        window.location.reload();
+      }
+    } else {
+      // 保存数据到localStorage
+      localStorage.setItem('manju_script', JSON.stringify(script));
+      localStorage.setItem('manju_novelText', novelText);
+    }
+  }, [script, novelText, location.state]);
+
   if (!script) {
     return (
       <div style={{ maxWidth: 1000, margin: '0 auto', padding: '40px 20px' }}>

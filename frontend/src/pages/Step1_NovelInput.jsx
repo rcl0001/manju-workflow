@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { Card, Input, Button, Typography, Space, message } from 'antd';
-import { FileTextOutlined, RightOutlined } from '@ant-design/icons';
+import { useState, useEffect } from 'react';
+import { Card, Input, Button, Typography, Space, message, Modal } from 'antd';
+import { FileTextOutlined, RightOutlined, WarningOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { hasUnfinishedProgress, clearAllData, saveData } from '../utils/storage';
 
 const { Title, Paragraph } = Typography;
 const { TextArea } = Input;
@@ -13,12 +14,36 @@ function Step1_NovelInput() {
   const [novelText, setNovelText] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // 检查是否有未完成的进度
+  useEffect(() => {
+    if (hasUnfinishedProgress()) {
+      Modal.confirm({
+        title: '检测到未完成的生成进度',
+        icon: <WarningOutlined />,
+        content: '你有之前未完成的生成任务，是否继续？',
+        okText: '继续上次进度',
+        cancelText: '重新开始',
+        onOk: () => {
+          navigate('/step2');
+        },
+        onCancel: () => {
+          clearAllData();
+          message.info('已清空旧的生成进度');
+        }
+      });
+    }
+  }, [navigate]);
+
   const handleGenerateScript = async () => {
     if (!novelText.trim()) {
       message.error('请输入小说内容');
       return;
     }
 
+    // 先清空旧数据
+    clearAllData();
+    // 保存新的小说内容
+    saveData('manju_novelText', novelText, false);
     // 直接跳转到下一步，在下一步页面进行生成
     navigate('/step2', { state: { novelText } });
   };
