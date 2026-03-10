@@ -6,11 +6,17 @@
   "main": "main.js",
   "scripts": {
     "start": "node main.js 2>&1 | tee run.log",
-    "test": "node test.js"
+    "test": "node test.js",
+    "dev:server": "node server.js",
+    "dev:web": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:web\""
   },
   "dependencies": {
     "axios": "^1.6.0",
+    "cors": "^2.8.6",
     "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "multer": "^2.1.1",
     "python-dotenv": "^0.0.1-security"
   },
   "keywords": [
@@ -20,5 +26,8 @@
     "工作流"
   ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
 }
