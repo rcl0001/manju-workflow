@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Card, Image, List, Button, Typography, Space, Tabs, Spin, Alert } from 'antd';
+import { Card, Image, List, Button, Typography, Space, Tabs, Spin, Alert, message } from 'antd';
 import { HomeOutlined, RedoOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getData, saveData, clearAllData } from '../utils/storage';
 
 const { Title, Paragraph } = Typography;
+const API_BASE = 'http://localhost:34567/api';
 
 function Step6_Result() {
   const navigate = useNavigate();
