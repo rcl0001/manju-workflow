@@ -19,17 +19,8 @@ function Step1_NovelInput() {
       return;
     }
 
-    setLoading(true);
-    try {
-      const res = await axios.post(`${API_BASE}/generate/script`, { novelText });
-      message.success('剧本生成成功！');
-      // 跳转到下一步，把结果带过去
-      navigate('/step2', { state: { script: res.data.script, novelText } });
-    } catch (err) {
-      message.error('生成失败：' + err.response?.data?.error || err.message);
-    } finally {
-      setLoading(false);
-    }
+    // 直接跳转到下一步，在下一步页面进行生成
+    navigate('/step2', { state: { novelText } });
   };
 
   return (
