@@ -1,6 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import { runManjuWorkflow } from './main.js';
+import { 剧本生成Agent } from './agents/1_剧本生成Agent.js';
+import { 角色三视图生成Agent } from './agents/2_角色三视图生成Agent.js';
+import { 环境参考图生成Agent } from './agents/3_环境参考图生成Agent.js';
+import { 视频提示词生成Agent } from './agents/4_视频提示词生成Agent.js';
+import { 视频生成Agent } from './agents/5_视频生成Agent.js';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -177,6 +182,88 @@ app.post('/api/update-prompt', async (req, res) => {
       res.status(400).json({ error: '未找到提示词部分' });
     }
 
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * 分步接口：生成剧本
+ */
+app.post('/api/generate/script', async (req, res) => {
+  try {
+    const { novelText } = req.body;
+    const fullScript = await 剧本生成Agent(novelText);
+    
+    // 拆分剧本
+    const splitScript = (fullScript) => {
+      const parts = fullScript.split('### ');
+      const roleInfoPart = (parts.find(p => p.startsWith('角色信息')) || '').replace('角色信息\n', '').trim();
+      const envInfoPart = (parts.find(p => p.startsWith('环境信息')) || '').replace('环境信息\n', '').trim();
+      const scriptContentPart = (parts.find(p => p.startsWith('剧本内容')) || '').replace('剧本内容\n', '').trim();
+      return { roleInfo: roleInfoPart, envInfo: envInfoPart, scriptContent: scriptContentPart };
+    };
+
+    const script = splitScript(fullScript);
+    // 保存中间结果
+    await fs.writeFile('./assets/step1_script.json', JSON.stringify(script, null, 2), 'utf-8');
+    
+    res.json({ success: true, script });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * 分步接口：生成角色三视图
+ */
+app.post('/api/generate/chars', async (req, res) => {
+  try {
+    const { roleInfo } = req.body;
+    const charRefs = await 角色三视图生成Agent(roleInfo);
+    await fs.writeFile('./assets/step2_char_refs.json', JSON.stringify(charRefs, null, 2), 'utf-8');
+    res.json({ success: true, charRefs });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * 分步接口：生成场景参考图
+ */
+app.post('/api/generate/scenes', async (req, res) => {
+  try {
+    const { envInfo } = req.body;
+    const sceneRefs = await 环境参考图生成Agent(envInfo);
+    await fs.writeFile('./assets/step3_scene_refs.json', JSON.stringify(sceneRefs, null, 2), 'utf-8');
+    res.json({ success: true, sceneRefs });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * 分步接口：生成视频提示词
+ */
+app.post('/api/generate/prompts', async (req, res) => {
+  try {
+    const { scriptContent, charRefs, sceneRefs } = req.body;
+    const videoPrompts = await 视频提示词生成Agent(scriptContent, charRefs, sceneRefs);
+    await fs.writeFile('./assets/step4_video_prompts.json', JSON.stringify(videoPrompts, null, 2), 'utf-8');
+    res.json({ success: true, videoPrompts });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * 分步接口：生成视频
+ */
+app.post('/api/generate/video', async (req, res) => {
+  try {
+    const { videoPrompts } = req.body;
+    const finalVideoPath = await 视频生成Agent(videoPrompts);
+    res.json({ success: true, finalVideo: finalVideoPath });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
